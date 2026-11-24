@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="An illustrated research introduction to translating video-generator features into executable physical scenes, with fixed and continually updated simulator workspaces and an annotated reading list.">
+<title>A physical workspace for video generation</title>
+<style>
+:root{color-scheme:light dark;--background:#fafaf8;--foreground:#202b33;--muted:#61717a;--border:#cbd2d5;--accent:#225f77;--ball:#27758a;--cube:#b17334;--paper:#fff;--button:#203640;--button-text:#fff;--floor:#e8edea;--rule:#b6c4c7}
+@media(prefers-color-scheme:dark){:root{--background:#152027;--foreground:#e7eeef;--muted:#afbdc4;--border:#485963;--accent:#9dd5e4;--ball:#80c2d3;--cube:#e1b37e;--paper:#1b2931;--button:#e0ebee;--button-text:#17272f;--floor:#293a40;--rule:#647a83}}
+*{box-sizing:border-box}body{margin:0;background:var(--background);color:var(--foreground);font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:1000px;margin:0 auto;padding:34px 32px 28px}h1{font-size:32px;letter-spacing:-.035em;font-weight:600;line-height:1.12;max-width:680px;margin:0 0 12px}p{margin:0}header p{max-width:760px;color:var(--muted)}.eyebrow{font-size:12px;letter-spacing:.11em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}.switcher{display:flex;gap:8px;flex-wrap:wrap;margin:25px 0 17px}button{font:inherit;border:1px solid var(--border);border-radius:7px;padding:10px 16px;background:transparent;color:var(--foreground);cursor:pointer}button[aria-pressed=true]{background:var(--button);color:var(--button-text);border-color:var(--button)}button:hover{filter:brightness(.95)}button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:3px}.mode-heading{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}.mode-heading h2{font-size:20px;font-weight:550;letter-spacing:-.02em;margin:0}.status{font-size:12px;color:var(--muted)}.mode-summary{color:var(--muted);margin-top:5px;min-height:24px}.flow{display:grid;grid-template-columns:minmax(0,1fr) 56px minmax(0,1fr) 56px minmax(0,1fr);align-items:center;margin-top:13px}.station{min-width:0}.station h3{font-size:15px;font-weight:550;margin:0 0 4px}.station .caption{font-size:13px;color:var(--muted);min-height:58px}.scene{display:block;width:100%;height:auto;overflow:visible}.link{width:100%;height:60px;color:var(--rule);margin-top:25px}.link .down{display:none}.scene path,.scene line,.scene circle,.scene rect,.scene ellipse,.scene polygon{vector-effect:non-scaling-stroke}.return-lane{height:47px;position:relative;margin:5px 0 10px}.return-lane svg{width:100%;height:30px;color:var(--accent)}.return-lane span{position:absolute;left:50%;top:16px;transform:translateX(-50%);font-size:12px;white-space:nowrap;background:var(--background);padding:0 9px;color:var(--muted)}.return-lane[data-active=false] svg{visibility:hidden}.progress-control{display:grid;grid-template-columns:auto minmax(100px,1fr) auto;gap:16px;align-items:center;border-top:1px solid var(--border);padding-top:16px}.progress-control label{font-size:14px;font-weight:500}.progress-control input{width:100%;accent-color:var(--accent);margin:0}.progress-control output{min-width:91px;text-align:right;font-size:14px;font-variant-numeric:tabular-nums}.helper{font-size:12px;color:var(--muted);margin-top:8px}.benefits{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:24px;padding-top:18px;border-top:1px solid var(--border)}.benefits h3{font-size:15px;font-weight:550;margin:0 0 5px}.benefits p{font-size:14px;color:var(--muted)}.note{font-size:12px;color:var(--muted);margin-top:20px}.note strong{font-weight:550}.live{font-size:14px;min-height:24px;margin-top:12px;color:var(--accent)}a{color:var(--accent)}
+@media(max-width:680px){main{padding:24px 20px}h1{font-size:27px}.flow{grid-template-columns:1fr;gap:5px}.station{display:grid;grid-template-columns:125px 1fr;column-gap:18px;align-items:center}.station h3{grid-column:2;grid-row:1;align-self:end}.station svg{grid-column:1;grid-row:1/3}.station .caption{grid-column:2;grid-row:2;align-self:start;min-height:0}.link{width:125px;height:25px;margin:0}.link .across{display:none}.link .down{display:inline}.return-lane{margin-top:15px}.return-lane span{font-size:11px;white-space:normal;text-align:center;min-width:230px;top:10px}.progress-control{grid-template-columns:1fr auto;gap:10px}.progress-control input{grid-column:1/3;grid-row:2}.progress-control output{grid-column:2;grid-row:1}.benefits{gap:18px}.mode-summary{min-height:48px}.live{min-height:42px}}
+@media(max-width:420px){.benefits{grid-template-columns:1fr}.switcher button{padding:9px 11px;font-size:14px}.station{grid-template-columns:110px 1fr;gap:12px}.link{width:110px}.station h3{font-size:14px}.station .caption{font-size:12px}}
+@media print{main{max-width:none;padding:0}body{font-size:11pt}button,input,.helper{display:none}.switcher{margin:0}.benefits{break-inside:avoid}h1{font-size:24pt}.note{font-size:9pt}}
+.intro{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:25px 0 0}.intro p{font-size:15px;color:var(--muted)}.intro strong{color:var(--foreground);font-weight:600}.section-head{margin:30px 0 13px}.section-head h2{font-size:22px;letter-spacing:-.025em;margin:0 0 5px;font-weight:550}.section-head p{font-size:14px;color:var(--muted);max-width:790px}.architecture{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto 88px auto;column-gap:54px;margin:22px 0 14px}.arch-node{position:relative;z-index:1;min-width:0;padding:12px 14px;text-align:left;background:var(--paper);border:1px solid var(--border);border-radius:8px;display:flex;flex-direction:column;gap:5px}.arch-node[aria-pressed=true]{background:var(--paper);color:var(--foreground);border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}.arch-node:hover{filter:none;border-color:var(--accent)}.node-kicker{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}.node-name{font-size:17px;line-height:1.25;font-weight:550}.node-note{font-size:12px;line-height:1.4;color:var(--muted)}.node-sketch{width:100%;height:57px;display:block;color:var(--foreground)}#arch-input{grid-column:1;grid-row:1}#arch-features{grid-column:2;grid-row:1}#arch-adapter{grid-column:3;grid-row:1}#arch-simulator{grid-column:3;grid-row:3}#arch-interface{grid-column:2;grid-row:3}#arch-output{grid-column:1;grid-row:3}.arch-wires{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;color:var(--rule)}.arch-wires path{fill:none;stroke:currentColor;stroke-width:1.5;vector-effect:non-scaling-stroke}.arch-wires .revisit{stroke:var(--accent);stroke-dasharray:5 5}.arch-wires .appearance{stroke:var(--muted);opacity:.6}.arch-wires text{fill:var(--muted);font-size:12px;font-family:inherit;text-anchor:middle}.arch-detail{display:grid;grid-template-columns:180px 1fr;gap:22px;padding:15px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);min-height:104px}.arch-detail h3{font-size:16px;font-weight:550;margin:0}.arch-detail p{font-size:14px;color:var(--muted)}.arch-caption{font-size:12px;color:var(--muted)}.research{margin-top:32px;padding-top:26px;border-top:1px solid var(--border)}.research h2{font-size:22px;font-weight:550;letter-spacing:-.025em;margin:0 0 10px}.research>p{font-size:15px;max-width:820px;color:var(--muted)}.training-flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:22px}.training-flow h3{font-size:16px;font-weight:550;margin:0 0 7px}.training-flow p{font-size:14px;color:var(--muted)}.training-flow .step-label{display:block;font-size:12px;color:var(--accent);margin-bottom:6px}.research-columns{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:24px}.research-columns h3{font-size:17px;font-weight:550;margin:0 0 7px}.research-columns p{font-size:14px;color:var(--muted)}.scope-note{font-size:13px!important;margin-top:18px}.footer{font-size:12px;color:var(--muted);margin-top:28px;padding-top:15px;border-top:1px solid var(--border)}.footer a{margin-right:16px}
+@media(max-width:680px){.intro,.research-columns{grid-template-columns:1fr;gap:16px}.architecture{grid-template-columns:1fr;grid-template-rows:none;gap:36px;margin-right:26px}.architecture .arch-node{grid-column:1;grid-row:auto;display:grid;grid-template-columns:86px minmax(0,1fr);column-gap:14px;padding:12px}.node-sketch{grid-column:1;grid-row:1/4;height:62px;align-self:center}.node-kicker,.node-name,.node-note{grid-column:2}.node-name{font-size:16px}.arch-detail{grid-template-columns:1fr;gap:7px;min-height:0}.training-flow{grid-template-columns:1fr;gap:20px}.section-head{margin-top:24px}.architecture .node-sketch{min-width:0}.arch-wires text{font-size:11px}.research{margin-top:25px}.intro{margin-top:20px}}
+@media print{.architecture .arch-node{display:flex}.arch-detail,.architecture,.training-flow{break-inside:avoid}.section-head{margin-top:20px}.intro p,.research>p,.training-flow p,.research-columns p{font-size:10pt}.architecture{column-gap:44px}.arch-node{padding:8px}.node-name{font-size:12pt}}
+.reading-nav{display:flex;gap:20px;flex-wrap:wrap;margin-top:16px;font-size:13px}.reference-groups{display:grid;grid-template-columns:1fr 1fr;gap:28px 36px;margin-top:24px}.reference-group{min-width:0}.reference-group h3{font-size:17px;font-weight:550;margin:0 0 14px}.reference-list{margin:0;padding:0;list-style:none}.reference-list li{margin:0 0 18px;break-inside:avoid}.reference-list a{font-size:15px;font-weight:550;overflow-wrap:anywhere}.reference-meta{display:block;font-size:12px;color:var(--muted);margin:3px 0 5px}.reference-list p{font-size:13px;color:var(--muted)}.reading-order{font-size:14px!important;margin-top:14px}.reference-list li:last-child{margin-bottom:0}@media(max-width:680px){.reference-groups{grid-template-columns:1fr;gap:26px}}@media print{.reference-list a{font-size:10pt}.reference-list p{font-size:9pt}.reference-group{break-inside:avoid}}
+</style>
+</head>
+<body>
+<main id="workspace-explainer">
+  <header>
+    <div class="eyebrow">Research overview · Video generation × physical computation</div>
+    <h1>Give the model a physical workspace.</h1>
+    <p>Translate a video generator’s internal features into an executable 3D scene, compute its physical consequences, and return those consequences to guide generation.</p>
+    <nav class="reading-nav" aria-label="Page sections"><a href="#architecture-heading">Architecture</a><a href="#learning-heading">Training</a><a href="#references">References &amp; alternatives</a></nav>
+  </header>
+  <div class="intro">
+    <p><strong>The problem.</strong> A plausible-looking video can still contain broken contacts, changing shapes or disappearing objects. A physics simulator can compute consistent motion, but it needs an explicit scene: which objects exist, their geometry, their state and how they interact.</p>
+    <p><strong>Our approach.</strong> Learn that scene from the observed video and the generator’s own interpretation. A learned adapter connects visual understanding to physical computation; a shared conditioning pathway connects the resulting motion back to the video model.</p>
+  </div>
+  <div class="switcher" role="group" aria-label="Choose the approach">
+    <button type="button" id="fixed-mode" aria-pressed="true">1. Build once</button>
+    <button type="button" id="continual-mode" aria-pressed="false">2. Update as it generates</button>
+  </div>
+  <section aria-labelledby="architecture-heading">
+    <div class="section-head"><h2 id="architecture-heading">The architecture</h2><p>Follow the numbered path. The generator appears twice: first to supply features, then to produce the guided video. These are uses of the same model. Select a component for detail.</p></div>
+    <div class="architecture" id="architecture">
+      <svg class="arch-wires" id="arch-wires" aria-hidden="true"><defs><marker id="arch-arrow" orient="auto" markerUnits="userSpaceOnUse" refX="7" refY="5" markerWidth="10" markerHeight="10"><path d="M1 1L7 5 1 9"/></marker></defs><g id="arch-paths"></g></svg>
+      <button type="button" class="arch-node" id="arch-input" aria-pressed="false" aria-controls="arch-detail">
+        <span class="node-kicker">01 · Observed input</span><strong class="node-name">Video prefix</strong>
+        <svg class="node-sketch" viewBox="0 0 180 57" aria-hidden="true"><g fill="var(--floor)" stroke="var(--rule)"><rect x="9" y="7" width="50" height="40" rx="2"/><rect x="65" y="7" width="50" height="40" rx="2"/><rect x="121" y="7" width="50" height="40" rx="2"/></g><g fill="var(--ball)"><circle cx="23" cy="31" r="6"/><circle cx="83" cy="31" r="6"/><circle cx="144" cy="31" r="6"/></g><g fill="var(--cube)"><rect x="42" y="24" width="10" height="14"/><rect x="98" y="24" width="10" height="14"/><rect x="154" y="24" width="10" height="14"/></g></svg>
+        <span class="node-note">Appearance, geometry and observed motion</span>
+      </button>
+      <button type="button" class="arch-node" id="arch-features" aria-pressed="false" aria-controls="arch-detail">
+        <span class="node-kicker">02 · Same video model</span><strong class="node-name">Generator features</strong>
+        <svg class="node-sketch" viewBox="0 0 180 57" aria-hidden="true"><g stroke="var(--rule)" fill="var(--paper)"><path d="M24 5H137V39H24Z"/><path d="M30 11H143V45H30Z"/><path d="M36 17H149V51H36Z"/></g><g fill="var(--ball)"><rect x="47" y="25" width="12" height="9" opacity=".4"/><rect x="62" y="25" width="12" height="9" opacity=".7"/><rect x="47" y="37" width="12" height="7" opacity=".7"/><rect x="62" y="37" width="12" height="7" opacity=".4"/></g><g fill="var(--cube)"><rect x="108" y="25" width="12" height="9" opacity=".7"/><rect x="123" y="25" width="12" height="9" opacity=".4"/><rect x="108" y="37" width="27" height="7" opacity=".6"/></g></svg>
+        <span class="node-note" id="feature-note">Read an initial, unguided scene interpretation</span>
+      </button>
+      <button type="button" class="arch-node" id="arch-adapter" aria-pressed="true" aria-controls="arch-detail">
+        <span class="node-kicker">03 · Trainable component</span><strong class="node-name">Learned scene adapter</strong>
+        <svg class="node-sketch" viewBox="0 0 180 57" aria-hidden="true"><g fill="none" stroke="var(--rule)"><path d="M22 9H54V49H22Z M54 29H78 M103 29H157 M111 15H157 M111 44H157"/><path d="M81 13H103V45H81Z"/></g><circle cx="38" cy="22" r="6" fill="var(--ball)"/><rect x="32" y="34" width="12" height="10" fill="var(--cube)"/><g fill="var(--foreground)"><circle cx="116" cy="15" r="2"/><circle cx="130" cy="29" r="2"/><circle cx="144" cy="44" r="2"/></g></svg>
+        <span class="node-note">Objects, shapes, poses, velocities and physical properties</span>
+      </button>
+      <button type="button" class="arch-node" id="arch-simulator" aria-pressed="false" aria-controls="arch-detail">
+        <span class="node-kicker">04 · Executable workspace</span><strong class="node-name">Physics simulator</strong>
+        <svg class="node-sketch" viewBox="0 0 180 57" aria-hidden="true"><path d="M11 43L40 13H165L136 51H11Z" fill="var(--floor)" stroke="var(--rule)"/><path d="M33 34H75 M103 31H142" fill="none" stroke="var(--rule)" stroke-width="2" stroke-dasharray="3 3"/><circle cx="33" cy="34" r="8" fill="var(--paper)" stroke="var(--ball)"/><circle cx="75" cy="34" r="8" fill="var(--ball)"/><path d="M92 24L98 18H114V36L108 42H92Z" fill="var(--paper)" stroke="var(--cube)"/><path d="M134 24L140 18H156V36L150 42H134Z" fill="var(--cube)"/><path d="M92 24H108L114 18 M108 24V42" fill="none" stroke="var(--cube)"/></svg>
+        <span class="node-note">Roll out motion, collisions and contact relationships</span>
+      </button>
+      <button type="button" class="arch-node" id="arch-interface" aria-pressed="false" aria-controls="arch-detail">
+        <span class="node-kicker">05 · Shared return pathway</span><strong class="node-name">States, graph &amp; masks</strong>
+        <svg class="node-sketch" viewBox="0 0 180 57" aria-hidden="true"><g fill="none" stroke="var(--rule)"><path d="M24 17L49 36L75 16 M24 17H75"/><rect x="96" y="8" width="69" height="39" rx="2"/></g><circle cx="24" cy="17" r="5" fill="var(--ball)"/><circle cx="75" cy="16" r="5" fill="var(--cube)"/><circle cx="49" cy="36" r="4" fill="var(--muted)"/><circle cx="113" cy="29" r="8" fill="var(--ball)" opacity=".45"/><rect x="141" y="21" width="15" height="17" fill="var(--cube)" opacity=".45"/><g fill="var(--rule)"><rect x="16" y="47" width="15" height="4"/><rect x="37" y="47" width="15" height="4"/><rect x="58" y="47" width="15" height="4"/></g></svg>
+        <span class="node-note">Where each object goes, how objects interact, where guidance applies</span>
+      </button>
+      <button type="button" class="arch-node" id="arch-output" aria-pressed="false" aria-controls="arch-detail">
+        <span class="node-kicker">06 · Same video model</span><strong class="node-name">Generator → final video</strong>
+        <svg class="node-sketch" viewBox="0 0 180 57" aria-hidden="true"><g fill="var(--floor)" stroke="var(--rule)"><rect x="9" y="7" width="50" height="40" rx="2"/><rect x="65" y="7" width="50" height="40" rx="2"/><rect x="121" y="7" width="50" height="40" rx="2"/></g><g fill="var(--ball)"><circle cx="29" cy="31" r="6"/><circle cx="87" cy="31" r="6"/><circle cx="143" cy="31" r="6"/></g><g fill="var(--cube)"><rect x="37" y="24" width="10" height="14"/><rect x="98" y="24" width="10" height="14"/><rect x="158" y="24" width="10" height="14"/></g><path d="M26 29L28 27 M84 29L86 27 M140 29L142 27" stroke="var(--paper)" stroke-width="2"/></svg>
+        <span class="node-note">Refine the video using visual context and physical guidance</span>
+      </button>
+    </div>
+    <p class="arch-caption" id="arch-caption">Original video also supplies observed geometry to the adapter and visual context to final generation. The first comparison trains the adapter; generator and return-path weights stay fixed.</p>
+    <div class="arch-detail" id="arch-detail" aria-live="polite"><h3 id="component-title">Learned scene adapter</h3><p id="component-detail"></p></div>
+  </section>
+  <div class="section-head"><h2>What changes during generation?</h2><p>A video diffusion model refines a noisy candidate through many passes. Each pass concerns the whole future clip—not just its next frame.</p></div>
+  <div class="mode-heading"><h2 id="mode-title">One simulation, reused throughout</h2><span class="status" id="mode-status">Current experiment</span></div>
+  <p class="mode-summary" id="mode-summary">The model keeps refining the video while the physical prediction stays fixed.</p>
+  <div class="flow" aria-label="The model's scene understanding is translated into a physical simulation, which guides video generation">
+    <section class="station">
+      <h3>Read the scene</h3>
+      <svg class="scene" id="model-scene" viewBox="0 0 240 176" role="img" aria-label="An observed ball moving toward a block, with outlines showing the model's object interpretation"></svg>
+      <p class="caption">A learned translator reads the video and the model’s internal understanding.</p>
+    </section>
+    <svg class="link" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><defs><marker id="arrow" orient="auto" markerUnits="userSpaceOnUse" refX="7" refY="5" markerWidth="10" markerHeight="10"><path d="M1 1L7 5 1 9" fill="none" stroke="currentColor"/></marker></defs><line class="across" x1="4" y1="30" x2="50" y2="30" marker-end="url(#arrow)"/><line class="down" x1="50%" y1="0" x2="50%" y2="23" marker-end="url(#arrow)"/></svg>
+    <section class="station">
+      <h3>Play it out in 3D</h3>
+      <svg class="scene" id="sim-scene" viewBox="0 0 240 176" role="img" aria-label="A simplified physical scene with predicted ball and block positions after their collision"></svg>
+      <p class="caption" id="sim-caption">One scene estimate → one predicted future.</p>
+    </section>
+    <svg class="link" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><line class="across" x1="4" y1="30" x2="50" y2="30" marker-end="url(#arrow)"/><line class="down" x1="50%" y1="0" x2="50%" y2="23" marker-end="url(#arrow)"/></svg>
+    <section class="station">
+      <h3>Guide the video</h3>
+      <svg class="scene" id="output-scene" viewBox="0 0 240 176" role="img" aria-label="A schematic video continuation becoming clearer over successive generation passes"></svg>
+      <p class="caption">Physical predictions guide each object; the video model supplies appearance.</p>
+    </section>
+  </div>
+  <div class="return-lane" id="return-lane" data-active="false">
+    <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path id="return-path" d="" marker-end="url(#arrow)"/></svg>
+    <span id="return-label">Same simulation at every generation pass</span>
+  </div>
+  <div class="progress-control">
+    <label for="generation-pass">Generation progress</label>
+    <input type="range" id="generation-pass" min="0" max="3" value="0" step="1" aria-describedby="slider-help">
+    <output for="generation-pass" id="pass-label">Early pass</output>
+  </div>
+  <p class="helper" id="slider-help">Move the slider. Switch approaches to see whether the physical workspace changes.</p>
+  <p class="live" id="live-detail" aria-live="polite">The simulation is built once. Later passes reuse it.</p>
+  <div class="benefits">
+    <section><h3>What building once adds</h3><p>A route from the model’s own understanding to explicit physical computation, without a person supplying a ready-made 3D scene.</p></section>
+    <section><h3>What updating could add</h3><p>A physical workspace that responds to new information during generation—and lets us inspect how the model’s scene hypothesis evolves.</p></section>
+  </div>
+  <p class="note"><strong>Concept illustration, not generated footage or a measured result.</strong> The updating version is proposed. Its revisions happen across generation passes, separately from time moving forward inside each simulated video. Better guidance is a hypothesis, not a guarantee.</p>
+  <section class="research" aria-labelledby="learning-heading">
+    <h2 id="learning-heading">How the adapter learns to make useful scenes</h2>
+    <p>We compare two scene representations—one that predicts the scene globally, and one that maintains a separate, persistent representation for each object. Each is trained with either scene-and-motion supervision alone or an additional video-generation objective. The simulator and the way its outputs reach the generator are held constant.</p>
+    <div class="training-flow">
+      <section><span class="step-label">Understand the observed scene</span><h3>Learn objects and state</h3><p>Training examples supervise geometry, identity and physical state where labels are available. Visual shape and simplified collision geometry have different roles: the latter must preserve the surfaces needed for contact.</p></section>
+      <section><span class="step-label">Predict physical consequences</span><h3>Learn through the rollout</h3><p>Compare simulated motion with training trajectories. Consistent object identities, valid geometry and fixed physical rules keep the workspace meaningful, rather than an arbitrary code passed to the generator.</p></section>
+      <section><span class="step-label">Make the scene useful to generation</span><h3>Add the video objective</h3><p>In the generation-aware variants, the video model’s training error also flows back through the conditioning pathway and differentiable simulation parameters into the adapter. The generator’s weights remain frozen.</p></section>
+    </div>
+    <p class="scope-note">The scene reader sees only permitted observations and generator features from a proposal made without the target future. Future training video supplies a learning target on a separate prediction branch; future evaluation video is never an input. Discrete object assignments and geometry construction need not be differentiable.</p>
+  </section>
+  <section class="research" aria-labelledby="contribution-heading">
+    <h2 id="contribution-heading">What this line of work could contribute</h2>
+    <div class="research-columns">
+      <section><h3>From internal features to computation</h3><p>The aim is to turn information inside a generator into an executable physical model that helps that same generator. This would connect learned visual interpretation to explicit physical consequences, reducing dependence on someone supplying a simulation-ready scene.</p></section>
+      <section><h3>From a fixed plan to an evolving workspace</h3><p>The proposed extension rereads internal features at selected generation stages, revises the scene hypothesis and recomputes its future. It could correct an initially mistaken interpretation while exposing how the physical hypothesis changes. Whether this helps enough to justify its added computation remains open.</p></section>
+    </div>
+  </section>
+  <section class="research" aria-labelledby="evidence-heading">
+    <h2 id="evidence-heading">What would count as progress?</h2>
+    <p>The output must improve, not just the simulation: more accurate motion and contacts, preserved object identity and shape, less flicker, and retained appearance. The current study compares adapter designs against generation with the controller off. Establishing the value of the generator’s features also needs a matched scene builder without those features. The continual version needs a direct comparison with the fixed version, including runtime.</p>
+    <p class="scope-note">A physically valid simulation does not force every generated pixel to obey it. Scene reconstruction and the return pathway can both fail. The workspace is an inspectable physical hypothesis decoded from the model—not a complete or proven record of its reasoning. These are intended contributions and open comparisons, not claims of demonstrated superiority.</p>
+  </section>
+  <section class="research" id="references" aria-labelledby="references-heading">
+    <h2 id="references-heading">References &amp; competing approaches</h2>
+    <p>A selective reading map, from object-based physical prediction to simulation-guided video and latent physical representations. These papers establish the surrounding building blocks; they do not establish that our particular adapter or continual-workspace proposal is better.</p>
+    <p class="reading-order"><strong>Start here:</strong> <a href="https://arxiv.org/abs/2409.18964" target="_blank" rel="noopener noreferrer">PhysGen</a> for simulation-to-video, <a href="https://arxiv.org/abs/2604.08503" target="_blank" rel="noopener noreferrer">PHANTOM</a> for latent physical dynamics, and <a href="https://arxiv.org/abs/2611.09894" target="_blank" rel="noopener noreferrer">Video-Coder</a> for an executable scene-building agent.</p>
+    <div class="reference-groups">
+      <section class="reference-group" aria-labelledby="ref-foundations">
+        <h3 id="ref-foundations">1. Objects and external workspaces</h3>
+        <ul class="reference-list">
+          <li><a href="https://arxiv.org/abs/1612.00222" target="_blank" rel="noopener noreferrer">Interaction Networks</a><span class="reference-meta">Battaglia et al. · 2016</span><p>Predicts physical dynamics through objects and their relationships in a graph. A foundation for our interaction representation; it is a learned dynamics model, not a video diffusion generator.</p></li>
+          <li><a href="https://arxiv.org/abs/2406.09403" target="_blank" rel="noopener noreferrer">Visual Sketchpad</a><span class="reference-meta">Hu et al. · 2024</span><p>Lets multimodal language models draw and reason over visual artifacts. It motivates an inspectable workspace, but demonstrates reasoning in language models, not a 3D workspace inside video denoising.</p></li>
+        </ul>
+      </section>
+      <section class="reference-group" aria-labelledby="ref-simulation">
+        <h3 id="ref-simulation">2. Connecting motion and simulation to video</h3>
+        <ul class="reference-list">
+          <li><a href="https://arxiv.org/abs/2404.13026" target="_blank" rel="noopener noreferrer">PhysDreamer</a><span class="reference-meta">Zhang et al. · 2024</span><p>Uses a video model’s dynamics prior to infer interactive physical behavior for 3D objects. Important precedent: letting a generator inform simulator parameters is already an established direction.</p></li>
+          <li><a href="https://arxiv.org/abs/2405.20222" target="_blank" rel="noopener noreferrer">MOFA-Video</a><span class="reference-meta">Niu et al. · 2024</span><p>Converts sparse controls into motion fields and uses warped image features to guide a frozen video model. It addresses the motion-to-appearance connection, without itself recovering a physical scene.</p></li>
+          <li><a href="https://arxiv.org/abs/2409.18964" target="_blank" rel="noopener noreferrer">PhysGen</a><span class="reference-meta">Liu et al. · 2024</span><p>Combines image understanding, rigid-body simulation and diffusion-based refinement. This is a direct predecessor for the overall pipeline; our proposed distinction concerns how the scene is inferred from the generator and trained for downstream use.</p></li>
+          <li><a href="https://arxiv.org/abs/2512.08765" target="_blank" rel="noopener noreferrer">Wan-Move</a><span class="reference-meta">Chu et al. · 2025</span><p>Propagates first-frame features along dense point trajectories to guide generation. It supplies motion-control precedent and a backbone for this implementation; a trajectory controller alone does not determine which motion is physically correct.</p></li>
+        </ul>
+      </section>
+      <section class="reference-group" aria-labelledby="ref-signals">
+        <h3 id="ref-signals">3. Physical information inside generators</h3>
+        <ul class="reference-list">
+          <li><a href="https://arxiv.org/abs/2505.23656" target="_blank" rel="noopener noreferrer">VideoREPA</a><span class="reference-meta">Zhang et al. · 2025</span><p>Aligns a video generator’s token relations with a video-understanding model. It is an alternative way to improve physical generation through representations, without executing an explicit simulator.</p></li>
+          <li><a href="https://arxiv.org/abs/2605.28230" target="_blank" rel="noopener noreferrer">Proprio</a><span class="reference-meta">Hassan et al. · 2026</span><p>Uses a frozen generator’s flow residuals for self-scoring, selection and refinement. It motivates making internal signals actionable; our route instead decodes a scene and computes its physical consequences.</p></li>
+          <li><a href="https://arxiv.org/abs/2606.05328" target="_blank" rel="noopener noreferrer">The Invisible Hand of Physics</a><span class="reference-meta">Esmati et al. · 2026</span><p>Finds decodable plausibility signals along inverted real-video trajectories. This supports investigating internal representations, while reminding us that reconstruction-path probes are not evidence of reliable scene inference during free generation.</p></li>
+          <li><a href="https://arxiv.org/abs/2610.03154" target="_blank" rel="noopener noreferrer">Does Physics Live in the Activations?</a><span class="reference-meta">Kneifl et al. · 2026</span><p>Finds physical quantities readable from object-associated diffusion features, including early denoising stages, and explores steering. It motivates the adapter’s input; accurate physical readouts do not by themselves establish complete 3D reconstruction.</p></li>
+        </ul>
+      </section>
+      <section class="reference-group" aria-labelledby="ref-alternatives">
+        <h3 id="ref-alternatives">4. The closest architectural alternatives</h3>
+        <ul class="reference-list">
+          <li><a href="https://arxiv.org/abs/2604.08503" target="_blank" rel="noopener noreferrer">PHANTOM</a><span class="reference-meta">Shen et al. · 2026</span><p>Jointly models visual generation and physics-aware latent dynamics. The distinction we want to test is an explicit, executable physical scene with inspectable states and rules, rather than a learned physical embedding alone.</p></li>
+          <li><a href="https://arxiv.org/abs/2611.09894" target="_blank" rel="noopener noreferrer">Video-Coder</a><span class="reference-meta">Wang et al. · 2026</span><p>Trains an agent to write and execute dynamic 3D scene code that guides downstream video generation. Our adapter instead starts from the target generator’s internal features and observed geometry. Whether this foundation is better requires a matched comparison.</p></li>
+        </ul>
+      </section>
+    </div>
+    <p class="scope-note">Our research question combines these threads: can the target generator’s own features support a useful executable scene, and does refreshing that scene during denoising help beyond building it once? The continual version is proposed. This reading map is not a claim of novelty, a head-to-head benchmark, or an exhaustive survey. Links checked 24 November 2026.</p>
+  </section>
+  <footer class="footer"><a href="SIMULATOR_WORKSPACE_OVERVIEW.md">One-page written summary</a><a href="REFERENCES.md">Full reading list</a><span>Fixed version under study; continual version proposed</span></footer>
+</main>
+<script>
+(() => {
+  const root = document.getElementById('workspace-explainer');
+  const el = id => root.querySelector('#' + id);
+  const fixed = el('fixed-mode'), continual = el('continual-mode'), slider = el('generation-pass');
+  let mode = 'fixed';
+  const titles = ['Early pass', 'Middle pass', 'Later pass', 'Final pass'];
+  const components = {
+    input: ['Observed video prefix', 'The input is the part of the scene already visible: its appearance, shapes and observed motion, plus any allowed text prompt. Geometry estimates come from this evidence. We do not supply future evaluation frames, future tracks or a ready-made test scene.'],
+    features: ['Generator features', 'Internal activations are numerical descriptions formed while the generator interprets the observed video and proposes a continuation. The adapter reads these features before physical conditioning. They provide a learned starting point for reconstruction; they are not already a reliable 3D scene.'],
+    adapter: ['Learned scene adapter', 'The adapter combines generator features with observed geometry and motion evidence. It predicts persistent objects, shapes, poses, velocities and physical properties, along with the camera and supporting surfaces. Its output is a structured, executable scene—not an image of a scene. This is the component being trained and compared.'],
+    simulator: ['Physics simulator', 'The simulator executes the inferred scene under consistent physical rules, such as gravity and contact dynamics. It computes a candidate future trajectory and interactions for the whole clip. Its correctness is conditional on the reconstructed scene: incorrect shape, state or properties can still produce the wrong prediction.'],
+    interface: ['States, interaction graph and masks', 'Future-state tokens encode compact descriptions of each object over time. Interaction-graph tokens describe relationships and contacts. Object masks associate guidance with the corresponding visible regions. This shared pathway tells the generator what should move and how objects relate while retaining its visual appearance pathway.'],
+    output: ['Generator and final video', 'The same pretrained video model refines a noisy candidate video using the original visual context and simulation-derived conditioning. It produces appearance, texture and the finished frames. The current version repeatedly uses one fixed simulated future; the proposed version refreshes that future at selected refinement stages.']
+  };
+  let selectedComponent = 'adapter';
+  function describeComponent(name) {
+    selectedComponent = name;
+    Object.keys(components).forEach(key => el('arch-' + key).setAttribute('aria-pressed', String(key === name)));
+    el('component-title').textContent = components[name][0];
+    el('component-detail').textContent = components[name][1];
+  }
+  function drawArchitecture() {
+    const holder=el('architecture'), base=holder.getBoundingClientRect();
+    const box=id=>{const r=el('arch-'+id).getBoundingClientRect();return {x:r.left-base.left,y:r.top-base.top,w:r.width,h:r.height};};
+    const names=['input','features','adapter','simulator','interface','output'];
+    const b=Object.fromEntries(names.map(name=>[name,box(name)]));
+    const mobile=Math.abs(b.input.x-b.features.x)<5;
+    const arrow=(d,cls='')=>`<path class="${cls}" d="${d}" marker-end="url(#arch-arrow)"/>`;
+    let paths='';
+    for(let i=0;i<names.length-1;i++) {
+      const a=b[names[i]],z=b[names[i+1]];
+      if(mobile || i===2) {
+        paths+=arrow(`M${a.x+a.w/2} ${a.y+a.h+6}V${z.y-7}`);
+      } else if(i<2) {
+        paths+=arrow(`M${a.x+a.w+7} ${a.y+a.h/2}H${z.x-8}`);
+      } else {
+        paths+=arrow(`M${a.x-7} ${a.y+a.h/2}H${z.x+z.w+8}`);
+      }
+    }
+    if(!mobile) {
+      const x=b.input.x+b.input.w*.35,mid=(b.input.y+b.input.h+b.output.y)/2;
+      paths+=arrow(`M${x} ${b.input.y+b.input.h+6}V${b.output.y-7}`,'appearance');
+      paths+=`<text x="${x+63}" y="${mid+3}">Visual context</text>`;
+      paths+=`<text x="${b.adapter.x+b.adapter.w/2-62}" y="${mid+3}">Scene</text>`;
+      if(mode==='continual') {
+        const startX=b.output.x+b.output.w-12,endX=b.features.x+b.features.w*.4;
+        paths+=arrow(`M${startX} ${b.output.y-7}V${mid-12}H${endX}V${b.features.y+b.features.h+7}`,'revisit');
+        paths+=`<text x="${(startX+endX)/2}" y="${mid-23}">Reread updated features</text>`;
+      }
+    } else if(mode==='continual') {
+      const x=base.width+14,a=b.output,z=b.features;
+      paths+=arrow(`M${a.x+a.w+3} ${a.y+a.h/2}H${x}V${z.y+z.h/2}H${z.x+z.w+5}`,'revisit');
+    }
+    el('arch-paths').innerHTML=paths;
+    el('feature-note').textContent=mode==='continual'?'Read the evolving interpretation at selected stages':'Read an initial, unguided scene interpretation';
+    el('arch-caption').textContent='Original video also supplies observed geometry to the adapter and visual context to final generation. The first comparison trains the adapter; generator and return-path weights stay fixed.'+(mode==='continual'?' Dashed arrow: the proposed rereading of features from the developing video.':'');
+  }
+  const floor = '<path d="M10 135L60 105H224L174 151H10Z" fill="var(--floor)"/><path d="M10 135H174L224 105" fill="none" stroke="var(--rule)" stroke-width="1"/>';
+  function ball(x,y,r,opacity=1,outline=false) {
+    return `<g opacity="${opacity}"><ellipse cx="${x+4}" cy="${y+r+3}" rx="${r*.9}" ry="4" fill="var(--rule)" opacity=".35"/><circle cx="${x}" cy="${y}" r="${r}" fill="${outline?'var(--background)':'var(--ball)'}" stroke="var(--ball)" stroke-width="1.5"/>${outline?'':`<path d="M${x-r*.6} ${y-r*.1}Q${x-r*.1} ${y-r*.9} ${x+r*.55} ${y-r*.3}" fill="none" stroke="var(--paper)" stroke-width="2" opacity=".6"/>`}</g>`;
+  }
+  function cube(x,y,half,opacity=1,outline=false) {
+    const l=x-half,t=y-half,d=8;
+    return `<g opacity="${opacity}" stroke="var(--cube)" stroke-width="1.3" stroke-linejoin="round"><path d="M${l} ${t}L${l+d} ${t-d}H${l+half*2+d}L${l+half*2} ${t}Z" fill="${outline?'var(--background)':'var(--cube)'}" fill-opacity="${outline?1:.55}"/><path d="M${l+half*2} ${t}L${l+half*2+d} ${t-d}V${t+half*2-d}L${l+half*2} ${t+half*2}Z" fill="var(--cube)" fill-opacity=".3"/><rect x="${l}" y="${t}" width="${half*2}" height="${half*2}" fill="${outline?'var(--background)':'var(--cube)'}" fill-opacity="${outline?1:.85}"/></g>`;
+  }
+  function positions(pass,time) {
+    const p = mode==='fixed'?0:pass;
+    const bx=146-p*4, ax=40, radius=16, half=17+p*.4, speed=105+p*7;
+    const contact=(bx-half-radius-ax)/speed;
+    return {a:ax+speed*Math.min(time,contact), b:bx+speed*Math.max(0,time-contact), radius, half, bx, ax};
+  }
+  function modelScene(pass) {
+    const guess=22-pass*1.5;
+    return floor+ball(48,113,16)+cube(145,112,17)+
+      `<path d="M15 113H25M24 108L30 113 24 118" fill="none" stroke="var(--ball)" stroke-width="1.5"/>`+
+      `<rect x="${48-guess}" y="${113-guess}" width="${guess*2}" height="${guess*2}" rx="3" fill="none" stroke="var(--ball)" stroke-dasharray="3 4" opacity=".6"/>`+
+      `<rect x="${145-guess}" y="${110-guess}" width="${guess*2+5}" height="${guess*2}" rx="3" fill="none" stroke="var(--cube)" stroke-dasharray="3 4" opacity=".6"/>`;
+  }
+  function simulation(pass) {
+    const start=positions(pass,0),end=positions(pass,1.02);
+    return floor+`<path d="M${start.ax} 113H${end.a}" fill="none" stroke="var(--ball)" stroke-width="2" stroke-dasharray="3 4"/><path d="M${start.bx} 112H${end.b}" fill="none" stroke="var(--cube)" stroke-width="2" stroke-dasharray="3 4"/>`+
+      ball(start.ax,113,16,1,true)+cube(start.bx,112,start.half,1,true)+
+      ball(end.a,113,16,.72)+cube(end.b,112,end.half,.72)+
+      `<path d="M${end.a+19} 83L${end.a+25} 76M${end.a+23} 91H${end.a+32}" fill="none" stroke="var(--foreground)" stroke-width="1.2"/>`;
+  }
+  function output(pass) {
+    const p=positions(pass,.88),blur=[2.6,1.7,.8,0][pass],opacity=[.45,.6,.8,1][pass];
+    return `<defs><filter id="soft-output"><feGaussianBlur stdDeviation="${blur}"/></filter></defs>`+floor+
+      `<g filter="url(#soft-output)" opacity="${opacity}">${ball(p.a,113,16)}${cube(p.b,112,17)}</g>`;
+  }
+  function render() {
+    const pass=Number(slider.value),updating=mode==='continual';
+    fixed.setAttribute('aria-pressed',String(!updating));continual.setAttribute('aria-pressed',String(updating));
+    el('mode-title').textContent=updating?'A workspace that evolves with generation':'One simulation, reused throughout';
+    el('mode-status').textContent=updating?'Proposed extension':'Current experiment';
+    el('mode-summary').textContent=updating?'New model understanding can revise the scene and its predicted future.':'The model keeps refining the video while the physical prediction stays fixed.';
+    el('model-scene').innerHTML=modelScene(updating?pass:0);el('sim-scene').innerHTML=simulation(pass);el('output-scene').innerHTML=output(pass);
+    el('pass-label').textContent=titles[pass];el('sim-caption').innerHTML=(updating?`Scene hypothesis ${pass+1} → recomputed physical future.`:'One scene estimate → one predicted future.')+'<br>Outline: start · Filled: predicted future';
+    el('return-lane').dataset.active=String(updating);
+    el('return-label').textContent=updating?'Updated understanding → revised physical workspace':'Same simulation at every generation pass';
+    el('live-detail').textContent=updating?(pass===0?'Start with a first physical hypothesis. Move forward to revise it.':`Pass ${pass+1}: the scene and predicted interaction are recomputed before guiding the video.`):(pass===0?'The simulation is built once. Later passes reuse it.':'The video is being refined, but the simulated future is unchanged.');
+    const w=el('return-lane').clientWidth;
+    el('return-path').setAttribute('d',`M${w*.88} 1V20H${w*.12}V2`);
+    el('sim-scene').setAttribute('aria-label',updating?`Physical workspace revision ${pass+1}: ball and block trajectories recomputed from the revised scene estimate.`:'Fixed physical workspace: the same ball and block trajectory prediction is reused at every generation pass.');
+    drawArchitecture();
+  }
+  Object.keys(components).forEach(name=>el('arch-'+name).addEventListener('click',()=>describeComponent(name)));
+  fixed.addEventListener('click',()=>{mode='fixed';render();});
+  continual.addEventListener('click',()=>{mode='continual';render();});
+  slider.addEventListener('input',render);
+  new ResizeObserver(render).observe(el('return-lane'));
+  new ResizeObserver(drawArchitecture).observe(el('architecture'));
+  describeComponent(selectedComponent);
+  render();
+})();
+</script>
+</body>
+</html>
