@@ -1,31 +1,27 @@
 # Giving a video model a physical workspace
 
-**The idea:** translate a video generator’s internal features into an executable 3D scene, compute its physical consequences, and return those consequences to guide generation. This connects learned visual interpretation to explicit physical computation without requiring a person to supply a ready-made simulation scene.
+**The idea:** translate a video generator’s internal features into an executable 3D scene, compute its physical consequences, and return those consequences to guide generation.
 
-[Explore the illustrated research introduction](index.html) — inspect the architecture, select its components, and compare the two approaches interactively.
+[Interactive architecture and results](index.html) · [Reading list](REFERENCES.md)
 
-**The shared pipeline**
+**Pipeline:** observed video → generator features → learned scene adapter → physics simulation → future-state / interaction-graph tokens + object masks → guided generator → video.
 
-Observed video → generator features → learned scene adapter → physics simulation → object-state / interaction-graph tokens + masks → guided generator → video.
+The adapter uses observed geometry, motion and internal generator features to estimate objects and their physical state. The simulator computes trajectories and interactions; tokens and masks connect those consequences to video generation. Appearance still comes from the generator and original visual context.
 
-The adapter combines internal features with observed geometry and motion to estimate objects, shapes, poses, velocities and physical properties. The simulator predicts their trajectories and interactions. Tokens describe these consequences; masks associate guidance with visible objects. The same generator supplies appearance using the original visual context.
+## 1. Build once: the completed LPV16 pilot
 
-## 1. Build the simulation once
+Construct one scene, simulate its future, and reuse that prediction throughout denoising. Objects move within the simulated video, but the simulation is not revised between denoising steps.
 
-Construct one scene and simulate its future. Keep using that prediction while the video model gradually refines its output. The objects move within the simulation, but the simulation itself is not revised during generation.
+**What it adds:** an executable physical interpretation of the generator’s input, without a person supplying a ready-made scene. Four adapters were trained with mask and geometry supervision (1,264 updates each), comparing global versus object-bound features and XYZ versus image-anchored position/depth. Generator and graph/state-token return weights stayed fixed; generation and scoring were separate from training.
 
-**What it adds:** the model’s understanding becomes a starting point for explicit physical computation. This could support realistic input videos without requiring someone to supply a ready-made 3D scene. This is the approach currently being tested.
+**Results versus native generation, controller off:** on all 40 paired IRIS development windows, adapter C (global features + image/depth) achieves **31.4% lower perceptual error** (LPIPS 0.578 → 0.396), **47.2% higher structural similarity** (SSIM 0.324 → 0.477), and **34.3% lower pixel error** (RGB MAE 0.199 → 0.130). Percentages are changes in paired means relative to native, not percentage points or an overall quality score.
 
-## 2. Update the simulation as generation develops
+C is shown because it completed all 40 cases, not because it wins every metric. A/B/C/D completed 38/39/40/30 of 40 clips; 13 simulation failures occurred before generation, all in Hitting cones. The website also compares all four on their 30 shared successful cases. Total: 147 adapter clips + 40 native clips scored. [Aggregate results and formulas](results-lpv16.json).
 
-At selected stages, read the model’s updated understanding, revise the scene, simulate it again, and feed the new prediction into the next stage of generation. Preserve object identities and consistent physical rules across revisions.
+These are reference-fidelity gains in four shared capture configurations, with one generation seed. They do not establish physical correctness, object permanence, causality or population-wide improvement. The reserved final test was not accessed.
 
-**What it adds:** an evolving physical workspace, rather than a commitment to the first scene estimate. We could inspect how the model’s decoded hypotheses about objects and interactions change, and test whether updating them improves the final video. This extension is proposed, not yet demonstrated.
+## 2. Update at selected stages: the continual workspace
 
-## Learning and evidence
+Read updated generator features at selected denoising stages, revise the scene while preserving object identity, simulate again, and feed the new future into subsequent generation. This could correct an initially mistaken scene estimate and make its changes inspectable.
 
-The current study compares global versus persistent object-based scene adapters, each trained with scene/rollout supervision alone or with an added video-generation objective. That objective passes gradients through the simulation’s continuous parameters and the fixed conditioning pathway. Generator and return-path weights remain frozen. Future training video is a target, never input to the scene reader.
-
-The first approach repeatedly uses the **same simulated future**; the second **recomputes it**. Judge both through generated motion, contacts, identity, shape, flicker and appearance—not simulation accuracy alone. Compare with controller-off generation; the continual extension also needs a matched fixed-workspace comparison and runtime accounting. The workspace exposes a decoded physical hypothesis, not a complete record of the model’s reasoning.
-
-[References and competing approaches](REFERENCES.md) — an annotated reading path through the foundations, simulation-to-video methods, internal physical signals and closest alternatives.
+**What it could add:** a workspace that evolves with the generator’s interpretation. Its value needs a matched comparison with a fixed workspace and a fine-tuned generator control, including runtime. No continual-workspace results are included here. The workspace is a decoded physical hypothesis, not a proven or complete record of the model’s reasoning.

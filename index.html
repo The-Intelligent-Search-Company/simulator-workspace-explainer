@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="An illustrated research introduction to translating video-generator features into executable physical scenes, with fixed and continually updated simulator workspaces and an annotated reading list.">
+<meta name="description" content="Single-simulation results: 31.4% lower LPIPS and 47.2% higher SSIM versus native generation on 40 paired development cases. Explore the physical-workspace architecture and reading list.">
 <title>A physical workspace for video generation</title>
 <style>
 :root{color-scheme:light dark;--background:#fafaf8;--foreground:#202b33;--muted:#61717a;--border:#cbd2d5;--accent:#225f77;--ball:#27758a;--cube:#b17334;--paper:#fff;--button:#203640;--button-text:#fff;--floor:#e8edea;--rule:#b6c4c7}
@@ -16,6 +16,28 @@
 @media(max-width:680px){.intro,.research-columns{grid-template-columns:1fr;gap:16px}.architecture{grid-template-columns:1fr;grid-template-rows:none;gap:36px;margin-right:26px}.architecture .arch-node{grid-column:1;grid-row:auto;display:grid;grid-template-columns:86px minmax(0,1fr);column-gap:14px;padding:12px}.node-sketch{grid-column:1;grid-row:1/4;height:62px;align-self:center}.node-kicker,.node-name,.node-note{grid-column:2}.node-name{font-size:16px}.arch-detail{grid-template-columns:1fr;gap:7px;min-height:0}.training-flow{grid-template-columns:1fr;gap:20px}.section-head{margin-top:24px}.architecture .node-sketch{min-width:0}.arch-wires text{font-size:11px}.research{margin-top:25px}.intro{margin-top:20px}}
 @media print{.architecture .arch-node{display:flex}.arch-detail,.architecture,.training-flow{break-inside:avoid}.section-head{margin-top:20px}.intro p,.research>p,.training-flow p,.research-columns p{font-size:10pt}.architecture{column-gap:44px}.arch-node{padding:8px}.node-name{font-size:12pt}}
 .reading-nav{display:flex;gap:20px;flex-wrap:wrap;margin-top:16px;font-size:13px}.reference-groups{display:grid;grid-template-columns:1fr 1fr;gap:28px 36px;margin-top:24px}.reference-group{min-width:0}.reference-group h3{font-size:17px;font-weight:550;margin:0 0 14px}.reference-list{margin:0;padding:0;list-style:none}.reference-list li{margin:0 0 18px;break-inside:avoid}.reference-list a{font-size:15px;font-weight:550;overflow-wrap:anywhere}.reference-meta{display:block;font-size:12px;color:var(--muted);margin:3px 0 5px}.reference-list p{font-size:13px;color:var(--muted)}.reading-order{font-size:14px!important;margin-top:14px}.reference-list li:last-child{margin-bottom:0}@media(max-width:680px){.reference-groups{grid-template-columns:1fr;gap:26px}}@media print{.reference-list a{font-size:10pt}.reference-list p{font-size:9pt}.reference-group{break-inside:avoid}}
+
+/* Measured results are separate from the conceptual interactive diagrams. */
+.results-panel{margin:38px 0 44px;padding:28px;border:1px solid var(--border);border-radius:18px;background:var(--paper)}
+.results-kicker{font-size:11px!important;font-weight:750;letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}
+.results-panel h2{font-size:28px;line-height:1.2;margin:10px 0 12px;max-width:720px}
+.results-lead{max-width:800px}.results-tags{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+.results-tags span{padding:5px 10px;border:1px solid var(--border);border-radius:20px;font-size:11px;color:var(--muted)}
+.results-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0 15px}
+.results-card{padding:18px 16px;background:var(--background);border:1px solid var(--border);border-radius:12px}
+.results-card p{margin:0 0 10px!important;font-size:12px!important;font-weight:650}
+.results-card>strong{display:block;font-size:35px;letter-spacing:-.04em;line-height:1.15;color:var(--accent)}
+.results-card>strong span{font-size:13px;font-weight:600;letter-spacing:0}
+.results-raw{font-size:12px;margin-top:12px;font-variant-numeric:tabular-nums}.results-card small{font-size:10px;color:var(--muted)}
+.results-caption{font-size:12px!important;color:var(--muted);line-height:1.6!important}
+.results-breakdown{margin:25px 0}.results-breakdown h3{font-size:15px;margin:0 0 5px}.results-breakdown>p{font-size:12px;color:var(--muted);margin-top:0}
+.results-scenarios{display:grid;gap:12px;margin-top:17px}.results-scenario{display:grid;grid-template-columns:115px 1fr 55px;gap:12px;align-items:center;font-size:12px}
+.results-track{height:9px;background:var(--floor);border-radius:5px;overflow:hidden}.results-track>div{height:100%;background:var(--accent);border-radius:5px}.results-scenario strong{text-align:right;font-variant-numeric:tabular-nums}
+.results-details{border-top:1px solid var(--border);padding:15px 0 4px;margin-top:15px}.results-details summary{cursor:pointer;font-size:13px;font-weight:650;line-height:1.5}.results-details p{font-size:12px;line-height:1.6}
+.results-caveat{border-left:3px solid var(--accent);padding-left:14px;font-size:13px!important;line-height:1.65!important;margin:23px 0 12px}
+.results-table-wrap{overflow-x:auto}.results-table{width:100%;border-collapse:collapse;font-size:12px;text-align:left}.results-table caption{text-align:left;padding:10px 0;color:var(--muted);font-size:11px}.results-table th,.results-table td{padding:11px 8px;border-bottom:1px solid var(--border);vertical-align:top}.results-table tbody th{font-weight:500;min-width:160px}.results-table td{white-space:nowrap;font-variant-numeric:tabular-nums}.results-table thead small{font-weight:400;color:var(--muted)}
+@media(max-width:680px){.results-panel{padding:20px 16px;margin:28px 0}.results-panel h2{font-size:24px}.results-cards{grid-template-columns:1fr;gap:10px}.results-card{padding:14px 16px;display:grid;grid-template-columns:1fr auto;gap:5px 8px;align-items:center}.results-card p{margin:0!important}.results-card>strong{grid-column:2;grid-row:1/4;font-size:30px}.results-card>strong span{display:block;text-align:right}.results-raw{margin:0;grid-column:1}.results-card small{grid-column:1}.results-scenario{grid-template-columns:94px 1fr 47px;gap:8px;font-size:11px}}
+
 </style>
 </head>
 <body>
@@ -24,12 +46,45 @@
     <div class="eyebrow">Research overview · Video generation × physical computation</div>
     <h1>Give the model a physical workspace.</h1>
     <p>Translate a video generator’s internal features into an executable 3D scene, compute its physical consequences, and return those consequences to guide generation.</p>
-    <nav class="reading-nav" aria-label="Page sections"><a href="#architecture-heading">Architecture</a><a href="#learning-heading">Training</a><a href="#references">References &amp; alternatives</a></nav>
+    <nav class="reading-nav" aria-label="Page sections"><a href="#results">Latest results</a><a href="#architecture-heading">Architecture</a><a href="#learning-heading">Training</a><a href="#references">References &amp; alternatives</a></nav>
   </header>
   <div class="intro">
     <p><strong>The problem.</strong> A plausible-looking video can still contain broken contacts, changing shapes or disappearing objects. A physics simulator can compute consistent motion, but it needs an explicit scene: which objects exist, their geometry, their state and how they interact.</p>
     <p><strong>Our approach.</strong> Learn that scene from the observed video and the generator’s own interpretation. A learned adapter connects visual understanding to physical computation; a shared conditioning pathway connects the resulting motion back to the video model.</p>
   </div>
+
+  <section class="results-panel" id="results" aria-labelledby="results-heading">
+    <p class="results-kicker">LPV16 · One simulation · Results added 27 November 2026</p>
+    <h2 id="results-heading">One fixed simulation. Closer to the recorded future.</h2>
+    <p class="results-lead">Compared with <strong>native generation, with the controller off</strong>, a learned scene adapter improves reference-video fidelity. The generator and the simulation-to-video pathway stay fixed.</p>
+    <div class="results-tags"><span>40 matched real-video cases</span><span>4 IRIS capture configurations</span><span>Development study</span></div>
+    <div class="results-cards"><article class="results-card"><p>Perceptual error</p><strong>31.4% <span>lower</span></strong><div class="results-raw">LPIPS: 0.578 → 0.396</div><small>Native → single simulation</small></article><article class="results-card"><p>Structural similarity</p><strong>47.2% <span>higher</span></strong><div class="results-raw">SSIM: 0.324 → 0.477</div><small>Native → single simulation</small></article><article class="results-card"><p>Pixel error</p><strong>34.3% <span>lower</span></strong><div class="results-raw">RGB MAE: 0.199 → 0.130</div><small>Native → single simulation</small></article></div>
+    <p class="results-caption">These headlines use <strong>C: global features + image-anchored position/depth</strong>, the only adapter that completed all 40 cases. They are relative changes in metric means, not percentage-point gains or a single “quality score.”</p>
+    <div class="results-breakdown">
+      <h3>Perceptual-error reduction in each scenario</h3>
+      <p>Same C adapter versus native · 10 paired cases per row · longer is better</p>
+      <div class="results-scenarios"><div class="results-scenario"><span>Dropping ball</span><div class="results-track"><div style="width:41.6779%"></div></div><strong>41.7%</strong></div><div class="results-scenario"><span>Falling ball</span><div class="results-track"><div style="width:32.0025%"></div></div><strong>32.0%</strong></div><div class="results-scenario"><span>Hitting cones</span><div class="results-track"><div style="width:38.0296%"></div></div><strong>38.0%</strong></div><div class="results-scenario"><span>Sliding cone</span><div class="results-track"><div style="width:14.7121%"></div></div><strong>14.7%</strong></div></div>
+    </div>
+    <details class="results-details">
+      <summary>Compare all four adapters on the same 30 cases</summary>
+      <p>To keep the comparison paired, this table uses only cases completed by <strong>every</strong> arm. It excludes all 10 Hitting cones cases, so its percentages differ from the 40-case headline above.</p>
+      <div class="results-table-wrap"><table class="results-table"><caption>Relative improvement over native on 30 shared cases / 3 configurations</caption>
+        <thead><tr><th scope="col">Adapter</th><th scope="col">Perceptual error<br><small>LPIPS ↓</small></th><th scope="col">Structural similarity<br><small>SSIM ↑</small></th><th scope="col">Pixel error<br><small>RGB MAE ↓</small></th></tr></thead>
+        <tbody><tr><th scope="row">A · Global features + XYZ</th><td>33.9% lower</td><td>53.8% higher</td><td>36.2% lower</td></tr><tr><th scope="row">B · Object-bound features + XYZ</th><td>33.6% lower</td><td>52.5% higher</td><td>32.5% lower</td></tr><tr><th scope="row">C · Global features + image/depth</th><td>29.6% lower</td><td>50.3% higher</td><td>32.3% lower</td></tr><tr><th scope="row">D · Object-bound features + image/depth</th><td>30.0% lower</td><td>50.9% higher</td><td>35.2% lower</td></tr></tbody>
+      </table></div>
+      <p class="results-caption">Full-study completions: A <strong>38/40</strong> · B <strong>39/40</strong> · C <strong>40/40</strong> · D <strong>30/40</strong>. The shared-case table describes successful outputs; it does not erase the failures or establish an overall winner.</p>
+    </details>
+    <p class="results-caveat"><strong>What this establishes:</strong> better agreement with the recorded continuation on this small development set. <strong>What remains open:</strong> physical correctness, contact causality, object permanence and gains from updating the simulation during denoising.</p>
+    <p class="results-caption"><strong>Coverage:</strong> 147/160 adapter clips + 40/40 native clips scored. The 13 missing adapter clips failed numerical simulation before generation, all in Hitting cones. No missing score was filled in.</p>
+    <details class="results-details">
+      <summary>Metric definitions, uncertainty and downloadable numbers</summary>
+      <p>All outputs are compared with the same real reference futures, using the same scoring runtime. LPIPS measures perceptual distance; SSIM measures structural similarity; RGB MAE measures average pixel error. These metrics can penalize another physically valid future.</p>
+      <p>For errors: <code>100 × (native − adapter) / native</code>. For SSIM: <code>100 × (adapter − native) / native</code>. Each input is a mean over the same paired cases. PSNR also increases by <strong>3.01 dB</strong>; decibels are not reported as a percentage.</p>
+      <p>C − native raw differences: LPIPS <strong>−0.181</strong> (descriptive 95% interval −0.247 to −0.113); SSIM <strong>+0.153</strong> (+0.128 to +0.175). These use 10,000 paired configuration-cluster bootstrap resamples. Only four clusters and one generation seed are represented; this is not a confirmatory benchmark or a population-wide claim. No percentage intervals were estimated.</p>
+      <p>The 40 windows share four capture configurations; they are not 40 independent scene setups. The reserved final test set was not accessed. <a href="results-lpv16.json">Download aggregate results, formulas and provenance</a>.</p>
+    </details>
+  </section>
+
   <div class="switcher" role="group" aria-label="Choose the approach">
     <button type="button" id="fixed-mode" aria-pressed="true">1. Build once</button>
     <button type="button" id="continual-mode" aria-pressed="false">2. Update as it generates</button>
@@ -69,11 +124,11 @@
         <span class="node-note">Refine the video using visual context and physical guidance</span>
       </button>
     </div>
-    <p class="arch-caption" id="arch-caption">Original video also supplies observed geometry to the adapter and visual context to final generation. The first comparison trains the adapter; generator and return-path weights stay fixed.</p>
+    <p class="arch-caption" id="arch-caption">Original video also supplies observed geometry to the adapter and visual context to final generation. The completed fixed-workspace comparison trains the adapter; generator and return-path weights stay fixed.</p>
     <div class="arch-detail" id="arch-detail" aria-live="polite"><h3 id="component-title">Learned scene adapter</h3><p id="component-detail"></p></div>
   </section>
   <div class="section-head"><h2>What changes during generation?</h2><p>A video diffusion model refines a noisy candidate through many passes. Each pass concerns the whole future clip—not just its next frame.</p></div>
-  <div class="mode-heading"><h2 id="mode-title">One simulation, reused throughout</h2><span class="status" id="mode-status">Current experiment</span></div>
+  <div class="mode-heading"><h2 id="mode-title">One simulation, reused throughout</h2><span class="status" id="mode-status">Single-simulation results above</span></div>
   <p class="mode-summary" id="mode-summary">The model keeps refining the video while the physical prediction stays fixed.</p>
   <div class="flow" aria-label="The model's scene understanding is translated into a physical simulation, which guides video generation">
     <section class="station">
@@ -109,14 +164,14 @@
     <section><h3>What building once adds</h3><p>A route from the model’s own understanding to explicit physical computation, without a person supplying a ready-made 3D scene.</p></section>
     <section><h3>What updating could add</h3><p>A physical workspace that responds to new information during generation—and lets us inspect how the model’s scene hypothesis evolves.</p></section>
   </div>
-  <p class="note"><strong>Concept illustration, not generated footage or a measured result.</strong> The updating version is proposed. Its revisions happen across generation passes, separately from time moving forward inside each simulated video. Better guidance is a hypothesis, not a guarantee.</p>
+  <p class="note"><strong>Concept illustration, not generated footage or a measured result.</strong> The updating version is under investigation; no continual-workspace result is included above. Its revisions happen across generation passes, separately from time moving forward inside each simulated video. Better guidance is a hypothesis, not a guarantee.</p>
   <section class="research" aria-labelledby="learning-heading">
     <h2 id="learning-heading">How the adapter learns to make useful scenes</h2>
-    <p>We compare two scene representations—one that predicts the scene globally, and one that maintains a separate, persistent representation for each object. Each is trained with either scene-and-motion supervision alone or an additional video-generation objective. The simulator and the way its outputs reach the generator are held constant.</p>
+    <p>The completed single-simulation study trains four scene adapters with explicit mask and geometry supervision. It crosses global versus object-bound features with direct 3D coordinates versus image-anchored position plus depth. The generator and the graph/state-token return pathway are held constant.</p>
     <div class="training-flow">
-      <section><span class="step-label">Understand the observed scene</span><h3>Learn objects and state</h3><p>Training examples supervise geometry, identity and physical state where labels are available. Visual shape and simplified collision geometry have different roles: the latter must preserve the surfaces needed for contact.</p></section>
-      <section><span class="step-label">Predict physical consequences</span><h3>Learn through the rollout</h3><p>Compare simulated motion with training trajectories. Consistent object identities, valid geometry and fixed physical rules keep the workspace meaningful, rather than an arbitrary code passed to the generator.</p></section>
-      <section><span class="step-label">Make the scene useful to generation</span><h3>Add the video objective</h3><p>In the generation-aware variants, the video model’s training error also flows back through the conditioning pathway and differentiable simulation parameters into the adapter. The generator’s weights remain frozen.</p></section>
+      <section><span class="step-label">Supervise the scene</span><h3>Learn objects and geometry</h3><p>Object masks provide an explicit location and presence signal. Geometry and state targets teach the adapter to reconstruct a scene from observed evidence and the generator’s features.</p></section>
+      <section><span class="step-label">Keep the comparison matched</span><h3>Train four adapters</h3><p>Each supervised adapter completes 1,264 updates. Feature binding and position representation change; the downstream simulator and conditioning mechanism stay fixed.</p></section>
+      <section><span class="step-label">Evaluate downstream video</span><h3>Simulate once, then generate</h3><p>Run each learned scene in the simulator and reuse its future-state and interaction-graph tokens during generation. Score the videos against native generation separately from training.</p></section>
     </div>
     <p class="scope-note">The scene reader sees only permitted observations and generator features from a proposal made without the target future. Future training video supplies a learning target on a separate prediction branch; future evaluation video is never an input. Discrete object assignments and geometry construction need not be differentiable.</p>
   </section>
@@ -129,8 +184,8 @@
   </section>
   <section class="research" aria-labelledby="evidence-heading">
     <h2 id="evidence-heading">What would count as progress?</h2>
-    <p>The output must improve, not just the simulation: more accurate motion and contacts, preserved object identity and shape, less flicker, and retained appearance. The current study compares adapter designs against generation with the controller off. Establishing the value of the generator’s features also needs a matched scene builder without those features. The continual version needs a direct comparison with the fixed version, including runtime.</p>
-    <p class="scope-note">A physically valid simulation does not force every generated pixel to obey it. Scene reconstruction and the return pathway can both fail. The workspace is an inspectable physical hypothesis decoded from the model—not a complete or proven record of its reasoning. These are intended contributions and open comparisons, not claims of demonstrated superiority.</p>
+    <p>The output must improve, not just the simulation: more accurate motion and contacts, preserved object identity and shape, less flicker, and retained appearance. The completed study above compares adapter designs against generation with the controller off and measures reference fidelity. Direct physics and object-identity evaluation remain open. Establishing the value of the generator’s features also needs a matched scene builder without those features. The continual version needs a direct comparison with the fixed version, including runtime.</p>
+    <p class="scope-note">A physically valid simulation does not force every generated pixel to obey it. Scene reconstruction and the return pathway can both fail. The workspace is an inspectable physical hypothesis decoded from the model—not a complete or proven record of its reasoning. The measured fidelity gains support the fixed-workspace direction; they do not resolve these broader questions.</p>
   </section>
   <section class="research" id="references" aria-labelledby="references-heading">
     <h2 id="references-heading">References &amp; competing approaches</h2>
@@ -170,9 +225,9 @@
         </ul>
       </section>
     </div>
-    <p class="scope-note">Our research question combines these threads: can the target generator’s own features support a useful executable scene, and does refreshing that scene during denoising help beyond building it once? The continual version is proposed. This reading map is not a claim of novelty, a head-to-head benchmark, or an exhaustive survey. Links checked 24 November 2026.</p>
+    <p class="scope-note">Our research question combines these threads: can the target generator’s own features support a useful executable scene, and does refreshing that scene during denoising help beyond building it once? The continual version is under investigation. This reading map is not a claim of novelty, a head-to-head benchmark, or an exhaustive survey. Links checked 24 November 2026.</p>
   </section>
-  <footer class="footer"><a href="SIMULATOR_WORKSPACE_OVERVIEW.md">One-page written summary</a><a href="REFERENCES.md">Full reading list</a><span>Fixed version under study; continual version proposed</span></footer>
+  <footer class="footer"><a href="SIMULATOR_WORKSPACE_OVERVIEW.md">One-page written summary</a><a href="REFERENCES.md">Full reading list</a><span>Fixed-workspace results: 27 Nov 2026 · continual evaluation pending</span></footer>
 </main>
 <script>
 (() => {
@@ -184,7 +239,7 @@
   const components = {
     input: ['Observed video prefix', 'The input is the part of the scene already visible: its appearance, shapes and observed motion, plus any allowed text prompt. Geometry estimates come from this evidence. We do not supply future evaluation frames, future tracks or a ready-made test scene.'],
     features: ['Generator features', 'Internal activations are numerical descriptions formed while the generator interprets the observed video and proposes a continuation. The adapter reads these features before physical conditioning. They provide a learned starting point for reconstruction; they are not already a reliable 3D scene.'],
-    adapter: ['Learned scene adapter', 'The adapter combines generator features with observed geometry and motion evidence. It predicts persistent objects, shapes, poses, velocities and physical properties, along with the camera and supporting surfaces. Its output is a structured, executable scene—not an image of a scene. This is the component being trained and compared.'],
+    adapter: ['Learned scene adapter', 'The adapter combines generator features with observed geometry and motion evidence. It predicts persistent objects, shapes, poses, velocities and physical properties, along with the camera and supporting surfaces. Its output is a structured, executable scene—not an image of a scene. This is the component trained and compared in the single-simulation results above.'],
     simulator: ['Physics simulator', 'The simulator executes the inferred scene under consistent physical rules, such as gravity and contact dynamics. It computes a candidate future trajectory and interactions for the whole clip. Its correctness is conditional on the reconstructed scene: incorrect shape, state or properties can still produce the wrong prediction.'],
     interface: ['States, interaction graph and masks', 'Future-state tokens encode compact descriptions of each object over time. Interaction-graph tokens describe relationships and contacts. Object masks associate guidance with the corresponding visible regions. This shared pathway tells the generator what should move and how objects relate while retaining its visual appearance pathway.'],
     output: ['Generator and final video', 'The same pretrained video model refines a noisy candidate video using the original visual context and simulation-derived conditioning. It produces appearance, texture and the finished frames. The current version repeatedly uses one fixed simulated future; the proposed version refreshes that future at selected refinement stages.']
@@ -230,7 +285,7 @@
     }
     el('arch-paths').innerHTML=paths;
     el('feature-note').textContent=mode==='continual'?'Read the evolving interpretation at selected stages':'Read an initial, unguided scene interpretation';
-    el('arch-caption').textContent='Original video also supplies observed geometry to the adapter and visual context to final generation. The first comparison trains the adapter; generator and return-path weights stay fixed.'+(mode==='continual'?' Dashed arrow: the proposed rereading of features from the developing video.':'');
+    el('arch-caption').textContent='Original video also supplies observed geometry to the adapter and visual context to final generation. The completed fixed-workspace comparison trains the adapter; generator and return-path weights stay fixed.'+(mode==='continual'?' Dashed arrow: the proposed rereading of features from the developing video.':'');
   }
   const floor = '<path d="M10 135L60 105H224L174 151H10Z" fill="var(--floor)"/><path d="M10 135H174L224 105" fill="none" stroke="var(--rule)" stroke-width="1"/>';
   function ball(x,y,r,opacity=1,outline=false) {
@@ -269,7 +324,7 @@
     const pass=Number(slider.value),updating=mode==='continual';
     fixed.setAttribute('aria-pressed',String(!updating));continual.setAttribute('aria-pressed',String(updating));
     el('mode-title').textContent=updating?'A workspace that evolves with generation':'One simulation, reused throughout';
-    el('mode-status').textContent=updating?'Proposed extension':'Current experiment';
+    el('mode-status').textContent=updating?'Proposed extension':'Single-simulation results above';
     el('mode-summary').textContent=updating?'New model understanding can revise the scene and its predicted future.':'The model keeps refining the video while the physical prediction stays fixed.';
     el('model-scene').innerHTML=modelScene(updating?pass:0);el('sim-scene').innerHTML=simulation(pass);el('output-scene').innerHTML=output(pass);
     el('pass-label').textContent=titles[pass];el('sim-caption').innerHTML=(updating?`Scene hypothesis ${pass+1} → recomputed physical future.`:'One scene estimate → one predicted future.')+'<br>Outline: start · Filled: predicted future';

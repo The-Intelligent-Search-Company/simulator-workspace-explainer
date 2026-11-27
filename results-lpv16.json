@@ -1,0 +1,318 @@
+{
+  "study": "LPV16 single-simulation adapter pilot",
+  "published_update": "2026-11-27",
+  "dataset": "IRIS real-video development windows",
+  "planned_cases_per_arm": 40,
+  "capture_configuration_groups": 4,
+  "generation_seed": 42,
+  "native_baseline": "Same generator, controller off; no simulator-derived conditioning",
+  "training": "Four supervised scene adapters; 1,264 updates each; generator and token return held fixed during this comparison",
+  "planned_new_clips": 160,
+  "generated_new_clips": 147,
+  "saved_native_clips": 40,
+  "scored_clips": 187,
+  "headline": {
+    "arm": "C_global_image_depth",
+    "paired_cases": 40,
+    "reason_shown": "Only adapter with all 40 cases completed, not a claim that it wins all metrics",
+    "native_means": {
+      "lpips_alex": 0.5776444770632819,
+      "psnr_db": 11.257618851041405,
+      "rgb_mae": 0.19857959765940905,
+      "rgb_mse": 0.07873098095878958,
+      "ssim": 0.32425279542803764,
+      "temporal_change_mae": 0.03630250990390778,
+      "temporal_second_difference_mae": 0.060146373603492974
+    },
+    "adapter_means": {
+      "lpips_alex": 0.3964568941096182,
+      "psnr_db": 14.263874158742954,
+      "rgb_mae": 0.13048819014802576,
+      "rgb_mse": 0.04423194313421845,
+      "ssim": 0.47730627506971357,
+      "temporal_change_mae": 0.025458228262141346,
+      "temporal_second_difference_mae": 0.042063658591359854
+    },
+    "relative_improvement_percent": {
+      "lpips_alex": 31.366626038703444,
+      "rgb_mae": 34.28922624174579,
+      "rgb_mse": 43.81888476993456,
+      "ssim": 47.20189981388874,
+      "temporal_change_mae": 29.87198865993313,
+      "temporal_second_difference_mae": 30.06451416562706
+    },
+    "psnr_gain_db": 3.006255307701549,
+    "raw_paired_differences_and_descriptive_intervals": {
+      "lpips_alex": {
+        "capture_configuration_groups": 4,
+        "descriptive_95pct_cluster_bootstrap": [
+          -0.24691631156866523,
+          -0.1134421257704327
+        ],
+        "mean_difference": -0.18118758295366372,
+        "paired_cases": 40
+      },
+      "psnr_db": {
+        "capture_configuration_groups": 4,
+        "descriptive_95pct_cluster_bootstrap": [
+          2.326681450918847,
+          3.6858291644842494
+        ],
+        "mean_difference": 3.0062553077015486,
+        "paired_cases": 40
+      },
+      "rgb_mae": {
+        "capture_configuration_groups": 4,
+        "descriptive_95pct_cluster_bootstrap": [
+          -0.07998936567455531,
+          -0.054607405234128235
+        ],
+        "mean_difference": -0.06809140751138329,
+        "paired_cases": 40
+      },
+      "rgb_mse": {
+        "capture_configuration_groups": 4,
+        "descriptive_95pct_cluster_bootstrap": [
+          -0.041466344334185126,
+          -0.028457110933959483
+        ],
+        "mean_difference": -0.03449903782457113,
+        "paired_cases": 40
+      },
+      "ssim": {
+        "capture_configuration_groups": 4,
+        "descriptive_95pct_cluster_bootstrap": [
+          0.12767068818211555,
+          0.1753690794110298
+        ],
+        "mean_difference": 0.15305347964167595,
+        "paired_cases": 40
+      },
+      "temporal_change_mae": {
+        "capture_configuration_groups": 4,
+        "descriptive_95pct_cluster_bootstrap": [
+          -0.01476167980581522,
+          -0.005600182339549065
+        ],
+        "mean_difference": -0.010844281641766429,
+        "paired_cases": 40
+      },
+      "temporal_second_difference_mae": {
+        "capture_configuration_groups": 4,
+        "descriptive_95pct_cluster_bootstrap": [
+          -0.024785010423511267,
+          -0.007629821356385946
+        ],
+        "mean_difference": -0.01808271501213312,
+        "paired_cases": 40
+      }
+    }
+  },
+  "coverage": {
+    "A_global_xyz": {
+      "label": "A · Global features + XYZ",
+      "completed": 38,
+      "planned": 40
+    },
+    "B_object_xyz": {
+      "label": "B · Object-bound features + XYZ",
+      "completed": 39,
+      "planned": 40
+    },
+    "C_global_image_depth": {
+      "label": "C · Global features + image/depth",
+      "completed": 40,
+      "planned": 40
+    },
+    "D_object_image_depth": {
+      "label": "D · Object-bound features + image/depth",
+      "completed": 30,
+      "planned": 40
+    }
+  },
+  "common_case_comparison": {
+    "cases": 30,
+    "capture_configuration_groups": 3,
+    "excluded_scenario": "Hitting cones: no D-arm completions",
+    "raw_means": {
+      "A_global_xyz": {
+        "lpips_alex": 0.40311884084349553,
+        "psnr_db": 14.272168618431689,
+        "rgb_mae": 0.1311176884919405,
+        "rgb_mse": 0.043926423570762076,
+        "ssim": 0.4698009878396988,
+        "temporal_change_mae": 0.0261276929328839,
+        "temporal_second_difference_mae": 0.042641334359844525
+      },
+      "B_object_xyz": {
+        "lpips_alex": 0.40489495767675565,
+        "psnr_db": 13.729719994847216,
+        "rgb_mae": 0.13869548154373965,
+        "rgb_mse": 0.04894746333981554,
+        "ssim": 0.46585651238759357,
+        "temporal_change_mae": 0.026561657804995774,
+        "temporal_second_difference_mae": 0.043087338594098884
+      },
+      "C_global_image_depth": {
+        "lpips_alex": 0.42912426964069406,
+        "psnr_db": 13.725708166326013,
+        "rgb_mae": 0.13905866456528504,
+        "rgb_mse": 0.04985202004512151,
+        "ssim": 0.45904416739940646,
+        "temporal_change_mae": 0.025065552008648715,
+        "temporal_second_difference_mae": 0.04105388969182968
+      },
+      "D_object_image_depth": {
+        "lpips_alex": 0.42666247144764796,
+        "psnr_db": 14.244474473865615,
+        "rgb_mae": 0.13324167020618916,
+        "rgb_mse": 0.04583610855042934,
+        "ssim": 0.46095706621805826,
+        "temporal_change_mae": 0.0261685484709839,
+        "temporal_second_difference_mae": 0.04287436921149492
+      },
+      "N_controller_off": {
+        "lpips_alex": 0.6096563475127473,
+        "psnr_db": 10.963198341223668,
+        "rgb_mae": 0.2055249405403932,
+        "rgb_mse": 0.08433789275586605,
+        "ssim": 0.3054372231165568,
+        "temporal_change_mae": 0.03486149882276853,
+        "temporal_second_difference_mae": 0.05755297193924586
+      }
+    },
+    "relative_improvement_percent": {
+      "A_global_xyz": {
+        "lpips_alex": 33.877693148258956,
+        "ssim": 53.81261754740998,
+        "rgb_mae": 36.20351469403731
+      },
+      "B_object_xyz": {
+        "lpips_alex": 33.58636232877249,
+        "ssim": 52.521198180818885,
+        "rgb_mae": 32.516471636452856
+      },
+      "C_global_image_depth": {
+        "lpips_alex": 29.61210501761872,
+        "ssim": 50.29083970693129,
+        "rgb_mae": 32.33976168553864
+      },
+      "D_object_image_depth": {
+        "lpips_alex": 30.01590597910951,
+        "ssim": 50.91712186047281,
+        "rgb_mae": 35.17007237377
+      }
+    }
+  },
+  "headline_by_scenario": [
+    {
+      "scenario": "Dropping ball",
+      "paired_cases": 10,
+      "native_means": {
+        "lpips_alex": 0.6434349486096339,
+        "psnr_db": 12.324719043427269,
+        "rgb_mae": 0.1687956914305687,
+        "rgb_mse": 0.06025418899953365,
+        "ssim": 0.12916958928108216,
+        "temporal_change_mae": 0.032910678163170816,
+        "temporal_second_difference_mae": 0.05480721965432167
+      },
+      "adapter_means": {
+        "lpips_alex": 0.3752645659175786,
+        "psnr_db": 15.958885616896609,
+        "rgb_mae": 0.10240759029984474,
+        "rgb_mse": 0.027645405754446982,
+        "ssim": 0.2900178462266922,
+        "temporal_change_mae": 0.030106863752007485,
+        "temporal_second_difference_mae": 0.05224532894790172
+      },
+      "relative_lpips_reduction_percent": 41.6779323646518
+    },
+    {
+      "scenario": "Falling ball",
+      "paired_cases": 10,
+      "native_means": {
+        "lpips_alex": 0.572626336867159,
+        "psnr_db": 10.051687240934431,
+        "rgb_mae": 0.23291688412427902,
+        "rgb_mse": 0.09902739003300667,
+        "ssim": 0.3861457288265228,
+        "temporal_change_mae": 0.03600151166319847,
+        "temporal_second_difference_mae": 0.0587745763361454
+      },
+      "adapter_means": {
+        "lpips_alex": 0.3893718120218678,
+        "psnr_db": 12.664901282543115,
+        "rgb_mae": 0.14839376360177994,
+        "rgb_mse": 0.05460852533578873,
+        "ssim": 0.5695068061351776,
+        "temporal_change_mae": 0.024951559118926527,
+        "temporal_second_difference_mae": 0.03794156312942505
+      },
+      "relative_lpips_reduction_percent": 32.00246182316333
+    },
+    {
+      "scenario": "Hitting cones",
+      "paired_cases": 10,
+      "native_means": {
+        "lpips_alex": 0.4816088657148859,
+        "psnr_db": 12.140880380494618,
+        "rgb_mae": 0.1777435690164566,
+        "rgb_mse": 0.061910245567560196,
+        "ssim": 0.3806995123624802,
+        "temporal_change_mae": 0.04062554314732551,
+        "temporal_second_difference_mae": 0.06792657859623433
+      },
+      "adapter_means": {
+        "lpips_alex": 0.29845476751639083,
+        "psnr_db": 15.878372135993775,
+        "rgb_mae": 0.10477676689624786,
+        "rgb_mse": 0.027371712401509284,
+        "ssim": 0.532092598080635,
+        "temporal_change_mae": 0.026636257022619247,
+        "temporal_second_difference_mae": 0.04509296528995037
+      },
+      "relative_lpips_reduction_percent": 38.029635921802765
+    },
+    {
+      "scenario": "Sliding cone",
+      "paired_cases": 10,
+      "native_means": {
+        "lpips_alex": 0.6129077570614491,
+        "psnr_db": 10.513188739309305,
+        "rgb_mae": 0.21486224606633186,
+        "rgb_mse": 0.09373209923505783,
+        "ssim": 0.40099635124206545,
+        "temporal_change_mae": 0.035672306641936304,
+        "temporal_second_difference_mae": 0.059077119827270506
+      },
+      "adapter_means": {
+        "lpips_alex": 0.5227364309826358,
+        "psnr_db": 12.553337599538313,
+        "rgb_mae": 0.16637463979423045,
+        "rgb_mse": 0.06730212904512882,
+        "ssim": 0.5176078498363494,
+        "temporal_change_mae": 0.02013823315501213,
+        "temporal_second_difference_mae": 0.03297477699816227
+      },
+      "relative_lpips_reduction_percent": 14.712054960951143
+    }
+  ],
+  "percentage_formula": "100 × (native mean − adapter mean) / native mean for error metrics; 100 × (adapter mean − native mean) / native mean for SSIM. Ratio of means, not mean per-video percent change.",
+  "missingness": "13 adapter clips failed numerical simulation before generation: A 2, B 1, D 10, all Hitting cones. Missing outputs remain missing.",
+  "uncertainty": "10,000 paired configuration-cluster bootstrap resamples of raw differences; descriptive only, four clusters. Percentage confidence intervals were not computed.",
+  "limits": [
+    "Reference distances penalize other valid futures and are not physics correctness.",
+    "No validated generated-domain identity/contact reader exists for these real scenes. These remain independent visual-review items.",
+    "SSIM/LPIPS and temporal residuals do not establish object permanence, object counts, contact causality, or a simulator-reasoning claim.",
+    "One generation seed and shared capture/configuration families limit generalization.",
+    "Review sheets use seven sampled frames per clip at reduced resolution; creating a sheet is not visual inspection.",
+    "Four capture/configuration clusters make uncertainty estimates fragile; this is development evidence, not a new confirmatory benchmark.",
+    "Real source masks are supervised only in training; held-out dense masks are unavailable."
+  ],
+  "physics_correctness_measured": false,
+  "final_test_accessed": false,
+  "continual_workspace_results_included": false,
+  "source_summary_sha256": "c471e9d4baf36a2d2406f23fd7e35c96fc1ca0db35ba4c0ad98d372c6852bc22",
+  "source_comparison_sha256": "5efa9751fbdcde8f9c7499a51064b334d08f48333fce086d2d8babd2bde70ccd"
+}
